@@ -33,7 +33,7 @@ class TfExampleDecoder(data_decoder.DataDecoder):
     """Constructor sets keys_to_features and items_to_handlers."""
     self.keys_to_features = {
         'image/encoded': tf.FixedLenFeature((), tf.string, default_value=''),
-        'image/format': tf.FixedLenFeature((), tf.string, default_value='jpeg'),
+        'image/format': tf.FixedLenFeature((), tf.string, default_value='vEvent'),
         'image/filename': tf.FixedLenFeature((), tf.string, default_value=''),
         'image/key/sha256': tf.FixedLenFeature((), tf.string, default_value=''),
         'image/source_id': tf.FixedLenFeature((), tf.string, default_value=''),
@@ -50,11 +50,21 @@ class TfExampleDecoder(data_decoder.DataDecoder):
         'image/object/difficult': tf.VarLenFeature(tf.int64),
         # Instance masks and classes.
         'image/segmentation/object': tf.VarLenFeature(tf.int64),
-        'image/segmentation/object/class': tf.VarLenFeature(tf.int64)
+        'image/segmentation/object/class': tf.VarLenFeature(tf.int64),
+        'image/indices': tf.VarLenFeature(tf.int64),
+        'image/values': tf.VarLenFeature(tf.float32),
+        # 'image/shape': tf.FixedLenFeature([3], tf.int64),
+        'image/shape': tf.VarLenFeature(tf.int64)
+        # 'image': tf.SparseFeature('image/indices', 'image/values', tf.int64, [240, 304, 3], False)
     }
     self.items_to_handlers = {
-        fields.InputDataFields.image: slim_example_decoder.Image(
-            image_key='image/encoded', format_key='image/format', channels=3),
+        fields.InputDataFields.image: slim_example_decoder.SparseTensor(indices_key='image/indices',
+                                                                        values_key='image/values',
+                                                                        shape_key='image/shape',
+                                                                        shape=(240, 304, 3)
+                                                                        ),
+        # fields.InputDataFields.image: slim_example_decoder.Image(
+        #    image_key='image/encoded', format_key='image/format', channels=3),
         fields.InputDataFields.source_id: (
             slim_example_decoder.Tensor('image/source_id')),
         fields.InputDataFields.key: (
@@ -122,7 +132,7 @@ class TfExampleDecoder(data_decoder.DataDecoder):
     tensor_dict = dict(zip(keys, tensors))
     is_crowd = fields.InputDataFields.groundtruth_is_crowd
     tensor_dict[is_crowd] = tf.cast(tensor_dict[is_crowd], dtype=tf.bool)
-    tensor_dict[fields.InputDataFields.image].set_shape([None, None, 3])
+    # tensor_dict[fields.InputDataFields.image].set_shape([None, None, 3])
     return tensor_dict
 
   def _reshape_instance_masks(self, keys_to_tensors):

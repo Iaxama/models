@@ -57,7 +57,20 @@ def _create_input_queue(batch_size_per_clone, create_tensor_dict_fn,
       call input_queue.Dequeue().
   """
   tensor_dict = create_tensor_dict_fn()
+  def func(x):
+    import ipdb; ipdb.set_trace()
+    return x
 
+
+  img = tensor_dict[fields.InputDataFields.image]
+  img = tf.py_func(
+          func,
+          [img],
+          tf.float32,
+  )
+  tensor_dict[fields.InputDataFields.image] = tf.sparse_to_dense(img.indices, img.dense_shape, img.values)
+
+  
   tensor_dict[fields.InputDataFields.image] = tf.expand_dims(
       tensor_dict[fields.InputDataFields.image], 0)
 
@@ -69,6 +82,7 @@ def _create_input_queue(batch_size_per_clone, create_tensor_dict_fn,
     tensor_dict = preprocessor.preprocess(tensor_dict,
                                           data_augmentation_options)
 
+  
   input_queue = batcher.BatchQueue(
       tensor_dict,
       batch_size=batch_size_per_clone,
