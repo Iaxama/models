@@ -12,8 +12,12 @@ flags = tf.app.flags
 flags.DEFINE_string('output_path', '', 'Path to output TFRecord')
 FLAGS = flags.FLAGS
 
+<<<<<<< HEAD
 classesid = {'banana': 1, 'bottle': 2, 'remote': 3, 'keyboard': 4,
              'cell_phone': 5}
+=======
+classesid = {'banana': 1, 'bottle': 2, 'remote': 3, 'keyboard': 4, 'cell_phone': 5}
+>>>>>>> 46d574676816ad74eae6fe9cc30d6f0c8a03e585
 
 def create_tf_example(example):
     (obj_type, fileidx, annotations, data) = example
@@ -57,7 +61,11 @@ def main(_):
     trainWriter = tf.python_io.TFRecordWriter(output_path + 'train.records')
     testWriter = tf.python_io.TFRecordWriter(output_path + 'test.records')
     
+<<<<<<< HEAD
     path = '/home/sweber/datasets/ev_images/'
+=======
+    path = 'data/'
+>>>>>>> 46d574676816ad74eae6fe9cc30d6f0c8a03e585
     pattern = re.compile('.*/frames/\d*ms/(.*)/left/img_(.*).png')
     boxpattern = re.compile('.*/boxes/(.*)/boxes.npy.gz')
     boxfiles = glob.glob(path + '/boxes/*/*.npy.gz')
