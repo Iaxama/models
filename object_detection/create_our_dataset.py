@@ -12,7 +12,7 @@ flags = tf.app.flags
 flags.DEFINE_string('output_path', '', 'Path to output TFRecord')
 FLAGS = flags.FLAGS
 
-classesid = {'banana': 52, 'bottle': 44, 'remote': 75, 'keyboard': 76, 'cell_phone': 77}
+classesid = {'banana': 1, 'bottle': 2, 'remote': 3, 'keyboard': 4, 'cell_phone': 5}
 
 def create_tf_example(example):
     (obj_type, fileidx, annotations, data) = example
@@ -51,12 +51,12 @@ def create_tf_example(example):
 
 def main(_):
 
-    output_path = '/home/miacono/workspace/models/object_detection/data/'
+    output_path = 'data/'
 
     trainWriter = tf.python_io.TFRecordWriter(output_path + 'train.records')
     testWriter = tf.python_io.TFRecordWriter(output_path + 'test.records')
     
-    path = '/home/miacono/workspace/vObj_detection/data/'
+    path = 'data/'
     pattern = re.compile('.*/frames/\d*ms/(.*)/left/img_(.*).png')
     boxpattern = re.compile('.*/boxes/(.*)/boxes.npy.gz')
     boxfiles = glob.glob(path + '/boxes/*/*.npy.gz')
