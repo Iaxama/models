@@ -31,6 +31,7 @@ from object_detection.core import standard_fields as fields
 from object_detection.utils import ops as util_ops
 from object_detection.utils import variables_helper
 from deployment import model_deploy
+from tensorflow.python import debug as tf_debug
 
 slim = tf.contrib.slim
 
@@ -293,4 +294,5 @@ def train(create_tensor_dict_fn, create_model_fn, train_config, master, task,
             train_config.num_steps if train_config.num_steps else None),
         save_summaries_secs=120,
         sync_optimizer=sync_optimizer,
-        saver=saver)
+        saver=saver
+    )

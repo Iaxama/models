@@ -51,9 +51,10 @@ def create_tf_example(example):
 
 def main(_):
 
-    output_path = '/home/miacono/workspace/models/object_detection/data/train.records'
+    output_path = '/home/miacono/workspace/models/object_detection/data/'
 
-    writer = tf.python_io.TFRecordWriter(output_path)
+    trainWriter = tf.python_io.TFRecordWriter(output_path + 'train.records')
+    testWriter = tf.python_io.TFRecordWriter(output_path + 'test.records')
     
     path = '/home/miacono/workspace/vObj_detection/data/'
     pattern = re.compile('.*/frames/\d*ms/(.*)/left/img_(.*).png')
@@ -76,9 +77,13 @@ def main(_):
             with open(file, 'rb') as f:
                 example = (obj_type, fileidx, annotations, f.read())
             tf_example = create_tf_example(example)
-            writer.write(tf_example.SerializeToString())
-
-    writer.close()
+            if np.random.random() < .7:
+                trainWriter.write(tf_example.SerializeToString())
+            else:
+                testWriter.write(tf_example.SerializeToString())
+                
+    trainWriter.close()
+    testWriter.close()
 
 
 if __name__ == '__main__':
