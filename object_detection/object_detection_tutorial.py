@@ -58,7 +58,7 @@ from utils import visualization_utils as vis_util
 
 # What model to download.
 # MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'
-MODEL_NAME = '/home/miacono/workspace/models_original/object_detection/samples/trained_model/output_inference_graph.pb'
+MODEL_NAME = 'samples/trained_model/output_inference_graph.pb'
 MODEL_FILE = MODEL_NAME + '.tar.gz'
 DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 
