@@ -156,10 +156,11 @@ class WeightedSmoothL1LocalizationLoss(Loss):
     """
 
     def my_func(x, y):
-      # x will be a numpy array with the contents of the placeholder below
-      if x.shape != y.shape:
-        import ipdb; ipdb.set_trace()
-      return x
+        # x will be a numpy array with the contents of the placeholder below
+        #if x.shape != y.shape:
+        #  import ipdb; ipdb.set_trace()
+        print(x.shape, y.shape)
+        return x
 
     prediction_tensor = tf.py_func(my_func, [prediction_tensor, target_tensor], tf.float32)
     
