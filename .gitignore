@@ -89,11 +89,6 @@ ENV/
 .ropeproject
 .idea/
 object_detection/protos/
-object_detection/samples/data/
 object_detection/data/
-object_detection/samples/pretrained_models/
-object_detection/samples/trained_model/
 object_detection/test_images/vImages/
-object_detection/samples/configs/ssd_inception_v2_vObjects.config
-object_detection/samples/eval_data/
-object_detection/samples/retrained_ckpt_faster_rcnn/
+object_detection/samples/models/
