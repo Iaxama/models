@@ -58,17 +58,19 @@ from utils import visualization_utils as vis_util
 
 # What model to download.
 # MODEL_NAME = 'ssd_mobilenet_v1_coco_11_06_2017'
-MODEL_NAME = 'samples/trained_model/output_inference_graph.pb'
+MODEL_NAME = 'samples/trained_model'
 MODEL_FILE = MODEL_NAME + '.tar.gz'
 DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
+
+obj = 'banana'
 
 # Path to frozen detection graph. This is the actual model that is used for the object detection.
 PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
 
 # List of the strings that is used to add correct label for each box.
-PATH_TO_LABELS = os.path.join('data', 'mscoco_label_map.pbtxt')
+PATH_TO_LABELS = os.path.join('data', 'vObjects_label_map.pbtxt')
 
-NUM_CLASSES = 90
+NUM_CLASSES = 5
 
 
 # ## Download Model
@@ -130,7 +132,7 @@ def load_image_into_numpy_array(image):
 # image1.jpg
 # image2.jpg
 # If you want to test the code with your images, just add path to the images to the TEST_IMAGE_PATHS.
-PATH_TO_TEST_IMAGES_DIR = 'test_images/vImages'
+PATH_TO_TEST_IMAGES_DIR = 'test_images/vImages/' + obj
 # TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(i)) for i in range(1, 3) ]
 # TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'img{}.png'.format(i)) for i in range(1, 3) ]
 TEST_IMAGE_PATHS = glob.glob(PATH_TO_TEST_IMAGES_DIR + '/img_*.png')

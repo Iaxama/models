@@ -155,14 +155,14 @@ class WeightedSmoothL1LocalizationLoss(Loss):
       loss: a (scalar) tensor representing the value of the loss function
     """
 
-    def my_func(x, y):
+    # def my_func(x, y):
         # x will be a numpy array with the contents of the placeholder below
         #if x.shape != y.shape:
         #  import ipdb; ipdb.set_trace()
-        print(x.shape, y.shape)
-        return x
+      #   print(x.shape, y.shape)
+        # return x
 
-    prediction_tensor = tf.py_func(my_func, [prediction_tensor, target_tensor], tf.float32)
+    #prediction_tensor = tf.py_func(my_func, [prediction_tensor, target_tensor], tf.float32)
     
     diff = prediction_tensor - target_tensor
     abs_diff = tf.abs(diff)
