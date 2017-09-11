@@ -85,10 +85,15 @@ ENV/
 # Spyder project settings
 .spyderproject
 
+# tfrecord files
+*.records
+
 # Rope project settings
 .ropeproject
 .idea/
 object_detection/protos/
-object_detection/data/
 object_detection/test_images/vImages/
 object_detection/samples/models/
+/object_detection/data/PET/
+/object_detection/data/frames/
+/object_detection/data/boxes/

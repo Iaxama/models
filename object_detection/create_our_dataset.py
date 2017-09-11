@@ -12,7 +12,7 @@ flags = tf.app.flags
 flags.DEFINE_string('output_path', '', 'Path to output TFRecord')
 FLAGS = flags.FLAGS
 
-classesid = {'banana': 1, 'bottle': 2, 'remote': 3, 'keyboard': 4, 'cell_phone': 5}
+classesid = {'banana': 1, 'bottle': 2, 'remote': 3, 'keyboard': 4, 'cell_phone': 5, 'cup' : 6}
 
 
 def create_tf_example(example):
@@ -59,7 +59,7 @@ def main(_):
     
 
     path = 'data/'
-    pattern = re.compile('.*/frames/\d*ms/(.*)/left/img_(.*).png')
+    pattern = re.compile('.*/frames/\d*ms/(\D*)(\d*)/left/img_(.*).png')
     boxpattern = re.compile('.*/boxes/(.*)/boxes.npy.gz')
     boxfiles = glob.glob(path + '/boxes/*/*.npy.gz')
     boxes_dict = {}
@@ -68,21 +68,27 @@ def main(_):
         match = boxpattern.match(file)
         (obj_type,) = match.groups()
         boxes_dict[obj_type] = boxes
-    
+
+    trainsize = 0
+    testsize = 0
 
     for twindow in np.int32(np.logspace(np.log10(5), np.log10(1000.0), num=10)):
         files = glob.glob(path + "frames/%dms/*/left/*.png" % twindow)
+        
         for file in tqdm(files):
             match = pattern.match(file)
-            obj_type, fileidx = match.groups()
-            annotations = boxes_dict[obj_type][int(fileidx) - 1]
+            obj_type, instance, fileidx = match.groups()
+            annotations = boxes_dict[obj_type+instance][int(fileidx) - 1]
             with open(file, 'rb') as f:
                 example = (obj_type, fileidx, annotations, f.read())
             tf_example = create_tf_example(example)
+            
             if np.random.random() < .7:
                 trainWriter.write(tf_example.SerializeToString())
+                trainsize += 1
             else:
                 testWriter.write(tf_example.SerializeToString())
+                testsize += 1
                 
     trainWriter.close()
     testWriter.close()

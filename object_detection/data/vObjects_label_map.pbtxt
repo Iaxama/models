@@ -22,3 +22,8 @@ item {
   id: 5
   name: 'cell_phone'
 }
+
+item {
+  id: 6
+  name: 'cup'
+}
